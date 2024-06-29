@@ -8,3 +8,7 @@
     display: block;
     --bs-navbar-padding-y: 0;
 }
+
+button{
+  margin: 0 0.5rem;
+}
