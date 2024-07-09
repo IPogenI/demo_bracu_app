@@ -7,7 +7,7 @@ const App = () =>{
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
-      <Route index element={<NewsFeedPosts />} />
+      <Route index element={<NewsFeedPosts />}/>
       {/* <Route path="/jobs" element={<JobsPage />} /> */}
       {/* <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} /> */}
       {/* <Route path="/edit-job/:id" element={<EditJobPage updateJobSubmit={updateJob}/>} loader={jobLoader} /> */}

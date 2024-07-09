@@ -1,6 +1,7 @@
 import React from 'react'
 import NewsFeedPost from './NewsFeedPost'
 import posts from '../posts.json'
+import PostCreation from './PostCreation'
 
 
 // Need to fetch data here from database and send them to NewsFeedPost.jsx
@@ -92,6 +93,8 @@ const NewsFeedPosts = () => {
                                 </div>
                             </div>
                         </div>
+
+                        <PostCreation/>
 
                         {/* Iterating over data to create posts */}
                         {
