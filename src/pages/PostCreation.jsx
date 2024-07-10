@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 
 const PostCreation = () => {
     // Post Creation Modal
     const [showModal, setShowModal] = useState(false)
+    const [caption, setCaption] = useState('')
+
+    const name = "Dummy User";
+
+    const Submit = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:3000/createPost", {name, caption})
+        .then(result => window.location.reload())
+        .catch(error => console.log(error))
+    }
 
     return (
         <>
@@ -32,8 +43,8 @@ const PostCreation = () => {
                                 </div>
 
                                 <div className="relative p-6 flex-auto">
-                                    <form className="flex flex-col gap-2 w-full">
-                                        <input type="text" placeholder="What's on your mind, Joe?" className="focus:outline-none" />
+                                    <form className="flex flex-col gap-2 w-full" onSubmit={Submit}>
+                                        <input type="text" placeholder="What's on your mind, Joe?" className="focus:outline-none" onChange={(e) => setCaption(e.target.value)}/>
 
                                         <div className="flex items-center justify-center w-full">
                                             <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-200 dark:border-gray-200 dark:hover:border-gray-200 dark:hover:bg-gray-200">

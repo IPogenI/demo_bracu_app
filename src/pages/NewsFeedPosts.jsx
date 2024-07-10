@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
 import NewsFeedPost from './NewsFeedPost'
-import posts from '../posts.json'
+//import posts from '../posts.json'
 import PostCreation from './PostCreation'
 
 
@@ -8,6 +9,17 @@ import PostCreation from './PostCreation'
 
 
 const NewsFeedPosts = () => {
+
+    const [posts, newPost] = useState([])
+
+    useEffect(() => {
+        axios.get("http://localhost:3000/getPost")
+        .then((result) => newPost(result.data))
+        .catch((error) => console.log(error))
+
+    }, [])
+
+
     return (
         <>
             <div className="posts pt-24 flex flex-col bg-gray-100">
@@ -98,8 +110,8 @@ const NewsFeedPosts = () => {
 
                         {/* Iterating over data to create posts */}
                         {
-                            posts.map((post) => (
-                                <NewsFeedPost key={post.id} post={post} />
+                            posts.map((post, index) => (
+                                <NewsFeedPost key={index} post={post} />
                             ))
                         }
                     </section>

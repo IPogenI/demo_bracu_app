@@ -19,7 +19,7 @@ const NewsFeedPost = ({ post }) => {
                 <p className="text-black font-semibold pt-1">
                   {post.name}
                 </p>
-                <p className="font-thin cursor-pointer">{post.date}</p>
+                <p className="font-thin cursor-pointer">{post.createdAt}</p>
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@ const NewsFeedPost = ({ post }) => {
 
           <div className="comments">
             <p className="text-gray-400 text-sm">
-              {post.commentCount}
+              {`${post.commentCount} Comments`}
             </p>
           </div>
         </div>
@@ -68,7 +68,7 @@ const NewsFeedPost = ({ post }) => {
               </li>
               <li className='flex gap-1 justify-items-center items-center cursor-pointer'>
                 <FaShare />
-                <p>Comment</p>
+                <p>Share</p>
               </li>
             </ul>
           </div>
