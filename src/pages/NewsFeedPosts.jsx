@@ -12,6 +12,7 @@ const NewsFeedPosts = () => {
 
     const [posts, newPost] = useState([])
 
+    // Handling Post Get
     useEffect(() => {
         axios.get("http://localhost:3000/getPost")
         .then((result) => newPost(result.data))
