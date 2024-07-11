@@ -34,7 +34,7 @@ const postSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  comments: [commentSchema] // Array of commentSchema
+  comments: { commentSchema } // Array of commentSchema
 }, { timestamps: true });
 
 const postModel = mongoose.model('posts', postSchema);

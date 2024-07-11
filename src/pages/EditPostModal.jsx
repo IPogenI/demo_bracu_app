@@ -1,8 +1,7 @@
 import { React, useState } from 'react'
 
-const EditPostModal = ({ setEdit }) => {
+const EditPostModal = ({ setEdit, post }) => {
   const [text, setText] = useState()
-  const [posts, newPost] = useState([])
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -42,7 +41,7 @@ const EditPostModal = ({ setEdit }) => {
             <div className="relative p-6 flex-auto">
               <form className="flex flex-col gap-2 w-full" onSubmit={(e) => e.preventDefault()}>
                 <textarea value={text} rows="2" type="text" placeholder="What's on your mind, Joe?" className="focus:outline-none resize-none overflow-hidden" onChange={handleChange}>
-                  {posts.caption}
+                  {post.caption}
                 </textarea>
 
                 <div className="flex items-center justify-center w-full">

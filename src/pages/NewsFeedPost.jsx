@@ -2,20 +2,31 @@ import { React, useState, useEffect, useRef } from 'react'
 import { FaEllipsisH, FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import EditPostModal from './EditPostModal'
+import CommentsModal from './CommentsModal'
 
 const NewsFeedPost = ({ post }) => {
   const dropDownRef = useRef(null)
+  const commentsRef = useRef(null)
   const [drop, setDrop] = useState(false)
   const [edit, setEdit] = useState(false)
   const [del, setDel] = useState(false)
+  const [showComments, setShowComments] = useState(false)
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
         setDrop(false);
       }
+
+      if (commentsRef.current && !commentsRef.current.contains(e.target)) {
+        setShowComments(false);
+      }
     }
     document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    }
   }, [])
 
   function current_time(creation_time) {
@@ -63,7 +74,8 @@ const NewsFeedPost = ({ post }) => {
 
   return (
     <>
-      {edit ? (<EditPostModal setEdit={setEdit} />) : null}
+      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={ current_time } />) : null}
+      {showComments ? (<CommentsModal current_time={ current_time } post={ post } setShowComments={ setShowComments } />): null }
 
       {/* Posts */}
       <div className="card bg-white border-2 border-gray-300 rounded-lg">
@@ -153,7 +165,9 @@ const NewsFeedPost = ({ post }) => {
               </li>
               <li className='flex gap-1 justify-items-center items-center cursor-pointer'>
                 <FaRegComment />
-                <p>Comment</p>
+                <button className="comments" onClick={() => { setShowComments(true) }}>
+                  Comment
+                </button>
               </li>
               <li className='flex gap-1 justify-items-center items-center cursor-pointer'>
                 <FaShare />
@@ -166,6 +180,7 @@ const NewsFeedPost = ({ post }) => {
         {/* Show Some Comments */}
 
       </div>
+
     </>
   )
 }
