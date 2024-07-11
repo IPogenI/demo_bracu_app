@@ -17,7 +17,49 @@ const NewsFeedPost = ({ post }) => {
     }
     document.body.addEventListener('click', handleClickOutside);
   }, [])
-  
+
+  function current_time(creation_time) {
+    const now = new Date();
+    const converted_date = new Date(creation_time)
+
+    const milliseconds = now - converted_date;
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+    
+    if (minutes < 1) {
+      return "Just Now";
+    }else if (hours < 1){
+      return `${minutes} minute${minutes > 1 ? "s":""} ago`;
+    }else if (days < 1){
+      return `${hours} hour${hours > 1 ? "s":""} ago`;
+    }else if (days < 7){
+      return `${days} day${days > 1 ? "s":""} ago`;
+    }else{
+      const this_year = now.getFullYear();
+      const creation_year = converted_date.getFullYear();
+
+      if(this_year === creation_year){
+
+        const same_year_option = {
+          day: "numeric",
+          month: "long",
+        }
+
+        return now.toLocaleDateString("en-us", same_year_option)
+      }else{
+        const different_year_option = {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }
+
+        return now.toLocaleDateString("en-us", different_year_option)
+      }
+    }
+  }
+
 
   return (
     <>
@@ -38,7 +80,7 @@ const NewsFeedPost = ({ post }) => {
                 <p className="text-black font-semibold">
                   {post.name}
                 </p>
-                <p className="font-thin cursor-pointer">{post.createdAt}</p>
+                <p className="font-thin cursor-pointer">{current_time(post.createdAt)}</p>
               </div>
             </div>
 
