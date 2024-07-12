@@ -84,7 +84,7 @@ const CommentsModal = ({ post, setShowComments, current_time }) => {
                     <p className="text-gray-400 text-sm pt-2">
                         Sort Them by Something
                     </p>
-                    {Object.values(post.comments).map((comment, index) => {
+                    {post.comments.map((comment, index) => {
                         return (
                             <div className="flex commenter py-4 px-2 gap-2" key={ index }>
                                 <div className="h-10 w-10 wrapper rounded-full border-2 border-black overflow-hidden">
