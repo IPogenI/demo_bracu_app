@@ -1,22 +1,58 @@
 import { React, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
+import { render } from 'react-dom';
 
 const PostCreationModal = ({ setShowModal }) => {
     const name = "Dummy User";
     const [caption, setCaption] = useState('')
-
-    // Handling Post Creation
-    const postHandler = () => {
-        setShowModal(false)
-        axios.post("http://localhost:3000/createPost", { name, caption })
-            .then(result => window.location.reload())
-            .catch(error => console.log(error))
-    }
-    
-
-    // Fixing TextArea Scrolling Issue, Changing it to Resize Dynamically
+    const [selectedFile, setSelectedFile] = useState(null)
     const textAreaRef = useRef(null)
     const [text, setText] = useState()
+    const [imageURI, setImageURI] = useState(null);
+
+
+    const postHandler = async () => {
+        setShowModal(false)
+        // Handling Post Creation and Image Upload
+        const formData = new FormData()
+        formData.append('name', name)
+        formData.append('caption', caption)
+
+        if (selectedFile) {
+            formData.append('file', selectedFile)
+        }
+
+        try {
+            const upRes = await axios.post('http://localhost:3000/createPost', formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+
+            console.log("File uploaded successfully:", upRes)
+            window.location.reload()
+
+        } catch (error) {
+            console.error('Error creating post:', error.response?.data || error.message);
+        }
+    }
+
+    // Handling File Change
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        setSelectedFile(file)
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            setImageURI(e.target.result)
+        }
+        reader.readAsDataURL(file)
+    }
+
+
+    // Fixing TextArea Scrolling Issue, Changing it to Resize Dynamically
+
     const handleChange = (e) => {
         e.preventDefault()
         setText(e.target.value)
@@ -57,6 +93,13 @@ const PostCreationModal = ({ setShowModal }) => {
                                 <textarea value={text} rows="2" type="text" placeholder="What's on your mind, Joe?" className="focus:outline-none resize-none overflow-hidden" onChange={handleChange} ref={textAreaRef}>
                                 </textarea>
 
+
+
+                                {imageURI? (
+                                <div className='flex justify-center mt-4'>
+                                    <img className='thumbnail w-full h-auto' src={imageURI} alt='Preview' />
+                                </div>
+                                ):  (
                                 <div className="flex items-center justify-center w-full">
                                     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-200 dark:border-gray-200 dark:hover:border-gray-200 dark:hover:bg-gray-200">
 
@@ -66,9 +109,11 @@ const PostCreationModal = ({ setShowModal }) => {
                                             </svg>
                                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Add Photos/Videos</span> or drag and drop</p>
                                         </div>
-                                        <input id="dropzone-file" type="file" className='hidden' />
+                                        <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
                                     </label>
                                 </div>
+                                )}
+
                             </form>
                         </div>
                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

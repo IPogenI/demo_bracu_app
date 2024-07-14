@@ -35,9 +35,7 @@ const CommentsModal = ({ post, setShowComments, current_time }) => {
 
                 {/* Image Viewing Section */}
                 <div>
-                    <div>
-                        <img className="w-[100%]" src="https://picsum.photos/600/400/?random" alt="" />
-                    </div>
+                    <img className="max-w-xl" src={post.imageUrl} alt="Something" />
                 </div>
 
                 {/* Show Reaction Count and Who Reacted */}
@@ -86,7 +84,7 @@ const CommentsModal = ({ post, setShowComments, current_time }) => {
                     </p>
                     {post.comments.map((comment, index) => {
                         return (
-                            <div className="flex commenter py-4 px-2 gap-2" key={ index }>
+                            <div className="flex commenter py-4 px-2 gap-2" key={index}>
                                 <div className="h-10 w-10 wrapper rounded-full border-2 border-black overflow-hidden">
                                     <img className="w-full h-full object-contain" src="https://randomuser.me/api/portraits/men/1.jpg" alt="" />
                                 </div>
@@ -98,7 +96,7 @@ const CommentsModal = ({ post, setShowComments, current_time }) => {
                                         {comment.comment}
                                     </p>
                                 </div>
-                            
+
                             </div>
 
                         )
