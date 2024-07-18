@@ -2,7 +2,7 @@ import { React, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { render } from 'react-dom';
 
-const PostCreationModal = ({ setShowModal }) => {
+const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
     const name = "Dummy User";
     const [caption, setCaption] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
@@ -13,6 +13,7 @@ const PostCreationModal = ({ setShowModal }) => {
 
     const postHandler = async () => {
         setShowModal(false)
+        onLoad(true)
         // Handling Post Creation and Image Upload
         const formData = new FormData()
         formData.append('name', name)
@@ -31,7 +32,8 @@ const PostCreationModal = ({ setShowModal }) => {
                 })
 
             console.log("File uploaded successfully:", upRes)
-            window.location.reload()
+            onCreation()
+            //window.location.reload()
 
         } catch (error) {
             console.error('Error creating post:', error.response?.data || error.message);

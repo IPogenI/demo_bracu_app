@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import PostCreationModal from './PostCreationModal';
 
 
-const PostCreation = () => {
+const PostCreation = ({onCreation, onLoad}) => {
     const [showModal, setShowModal] = useState(false)
     
     return (
         <>
             {/* Post Creation Modal */}
-            {showModal ? (<PostCreationModal setShowModal={setShowModal} />) : null}
+            {showModal ? (<PostCreationModal setShowModal={setShowModal} onCreation={onCreation} onLoad={onLoad}/>) : null}
 
             <div className="card bg-white border-2 border-gray-300 rounded-lg">
                 <div className="p-5">

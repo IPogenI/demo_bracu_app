@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import NewsFeedPost from './NewsFeedPost'
 //import posts from '../posts.json'
+import { ClipLoader } from 'react-spinners'
+import Spinner from './Spinner'
 import PostCreation from './PostCreation'
 
 
@@ -11,14 +13,21 @@ import PostCreation from './PostCreation'
 const NewsFeedPosts = () => {
 
     const [posts, newPost] = useState([])
+    const [loading, setLoading] = useState(true)
 
     // Handling Post Get
-    useEffect(() => {
+    const fetchPosts = () => {
+        setLoading(true)
         axios.get("http://localhost:3000/getPost")
-        .then((result) => newPost(result.data))
-        .catch((error) => console.log(error))
+            .then((result) => newPost(result.data))
+            .catch((error) => console.log(error))
+            .finally(() => {
+                setLoading(false)
+            })
 
-    }, [])
+    }
+
+    useEffect(fetchPosts, [])
 
 
     return (
@@ -107,9 +116,15 @@ const NewsFeedPosts = () => {
                             </div>
                         </div>
 
-                        <PostCreation/>
+                        <PostCreation onCreation={fetchPosts} onLoad={setLoading} />
 
                         {/* Iterating over data to create posts */}
+                        {loading ? (
+                            <div align="center">
+                                <p>Please Wait ....</p>
+                                <Spinner loading={loading} />
+                            </div>
+                        ) : null}
                         {
                             posts.map((post, index) => (
                                 <NewsFeedPost key={index} post={post} />
