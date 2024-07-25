@@ -58,7 +58,7 @@ const NewsFeedPost = ({ post }) => {
           month: "long",
         }
 
-        return now.toLocaleDateString("en-us", same_year_option)
+        return converted_date.toLocaleDateString("en-us", same_year_option)
       }else{
         const different_year_option = {
           day: "numeric",
@@ -66,7 +66,7 @@ const NewsFeedPost = ({ post }) => {
           year: "numeric"
         }
 
-        return now.toLocaleDateString("en-us", different_year_option)
+        return converted_date.toLocaleDateString("en-us", different_year_option)
       }
     }
   }
