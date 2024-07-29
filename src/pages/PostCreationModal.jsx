@@ -98,8 +98,10 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
 
 
                                 {imageURI? (
-                                <div className='flex justify-center mt-4'>
-                                    <img className='thumbnail w-full h-auto' src={imageURI} alt='Preview' />
+                                <div className='justify-center mt-4'>
+                                    <p align='center'>Click on Image Preview to change Image</p>
+                                    <img className='thumbnail w-full h-auto' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
+                                    <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
                                 </div>
                                 ):  (
                                 <div className="flex items-center justify-center w-full">
