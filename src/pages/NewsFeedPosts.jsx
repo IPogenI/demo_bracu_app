@@ -37,7 +37,7 @@ const NewsFeedPosts = () => {
                     <section className="flex flex-col max-w-xl gap-5">
                         {/* Story/Day of Friends */}
                         <div className="stories py-4">
-                            <div className="bg-white border-2 border-gray-300 rounded-lg ">
+                            <div className="bg-white shadow-md rounded-lg ">
                                 <div className="flex py-2 justify-between px-4">
 
                                     <div className="text-center">
@@ -122,8 +122,8 @@ const NewsFeedPosts = () => {
                         {loading ? (
                             <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
                                 <div className="text-center">
-                                    <p className="mb-4 text-5xl">Please Wait ....</p>
-                                    <Spinner loading={loading} className="w-160 h-160" />
+                                    <p className="mb-4 text-base">Please Wait...</p>
+                                    <Spinner className="h-10 w-10"/>
                                 </div>
                             </div>
                         ) : null}

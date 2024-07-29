@@ -6,7 +6,7 @@ const Sidebar = () => {
         <>
             <div className='sideBar'>
                 {/* Left Side Bar */}
-                <nav className='fixed top-20 w-64 h-screen'>
+                <nav className='fixed top-20 w-64 h-screen hidden xl:flex'>
                     <ul className="h-[100%] flex flex-col text-base space-y-4 py-7">
                         <div className="flex cursor-pointer rounded-lg mx-2 py-2 hover:bg-gray-500 hover:bg-opacity-10">
                             <button>
@@ -72,7 +72,7 @@ const Sidebar = () => {
                 </nav>
 
                 {/* Right Side Bar */}
-                <nav className="flex flex-col justify-between h-screen fixed w-80 right-0 rounded-lg text-sm">
+                <nav className="flex flex-col justify-between h-screen fixed w-80 right-0 rounded-lg text-sm hidden xl:flex">
                     <div className='py-20'>
                         <div>
                             <div className="py-3">
@@ -116,7 +116,7 @@ const Sidebar = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="footer py-4 space-y-2 text-gray-500">
+                    <div className="footer py-4 space-y-2 text-gray-500 justify-self-end">
                         <footer>
                             <ul className="flex flex-wrap justify-items-start gap-2 text-sm pt-3">
                                 <li className="hover:underline hover:underline-offset-4">About</li>

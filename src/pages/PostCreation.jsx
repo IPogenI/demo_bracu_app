@@ -10,7 +10,7 @@ const PostCreation = ({onCreation, onLoad}) => {
             {/* Post Creation Modal */}
             {showModal ? (<PostCreationModal setShowModal={setShowModal} onCreation={onCreation} onLoad={onLoad}/>) : null}
 
-            <div className="card bg-white border-2 border-gray-300 rounded-lg">
+            <div className="card bg-white shadow-md rounded-lg">
                 <div className="p-5">
                     <div className=" flex w-[100%]">
                         <div className="flex items-center text-center gap-1">

@@ -1,14 +1,31 @@
-import React from 'react'
-import { FaEllipsisH, FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
+import { React, useState, useEffect, useRef } from 'react'
+import { FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
 
-const CommentsModal = ({ post, setShowComments, current_time }) => {
+const CommentsModal = ({ post, current_time, setShowComments }) => {
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setShowComments(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [setShowComments]);
+
+
     return (
         <>
-            <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50"></div>
+            <div id='outElem' className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50"></div>
 
             {/* Post */}
-            <div className="fixed card bg-white border-2 border-gray-300 rounded-lg -ml-3.5">
-                <div className="postDetails p-3 max-w-2xl">
+            <div ref={modalRef} className="fixed w-[580px] max-w-full card bg-white shadow-2xl rounded-lg z-50">
+                <div className="postDetails p-3">
 
                     {/* Profile Pic With Name and Time of Post */}
                     <div className="flex flex-row justify-between items-start text-center gap-1 mb-4">
@@ -33,9 +50,13 @@ const CommentsModal = ({ post, setShowComments, current_time }) => {
                     </div>
                 </div>
 
-                {/* Image Viewing Section */}
+                {/* Image Viewing Section; Made Responsive */}
                 <div>
-                    <img className="max-w-xl" src={post.imageUrl} alt="Something" />
+                    <img
+                        className="w-full max-w-xl object-contain"
+                        src={post.imageUrl}
+                        alt="Something"
+                    />
                 </div>
 
                 {/* Show Reaction Count and Who Reacted */}

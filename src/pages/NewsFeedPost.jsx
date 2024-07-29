@@ -7,7 +7,6 @@ import axios from 'axios'
 
 const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const dropDownRef = useRef(null)
-  const commentsRef = useRef(null)
   const [drop, setDrop] = useState(false)
   const [edit, setEdit] = useState(false)
   const [del, setDel] = useState(false)
@@ -17,10 +16,6 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
     const handleClickOutside = (e) => {
       if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
         setDrop(false);
-      }
-
-      if (commentsRef.current && !commentsRef.current.contains(e.target)) {
-        setShowComments(false);
       }
     }
     document.body.addEventListener('click', handleClickOutside);
@@ -96,7 +91,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
       {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} />) : null}
 
       {/* Posts */}
-      <div className="card bg-white border-2 border-gray-300 rounded-lg">
+      <div className="card bg-white shadow-md rounded-lg">
         <div className="postDetails p-3">
 
           {/* Profile Pic With Name and Time of Post */}
@@ -110,9 +105,17 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
                 <p className="text-black font-semibold">
                   {post.name}
                 </p>
-                <p className="font-thin cursor-pointer">{
-                (post.createdAt === post.updatedAt)? current_time(post.createdAt): `${current_time(post.createdAt)} (edited)`
-                }</p>
+                <div className="font-thin cursor-context-menu">{
+                  (post.createdAt === post.updatedAt) ?
+                    <p className='text-gray-500'>
+                      {current_time(post.createdAt)}
+                    </p>
+                    :
+                    <p className='text-gray-500'>
+                      {`${current_time(post.createdAt)}`}
+                      <strong className='ml-2'>Edited</strong>
+                    </p>
+                }</div>
               </div>
             </div>
 
