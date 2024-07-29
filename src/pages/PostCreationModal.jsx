@@ -8,7 +8,8 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
     const [selectedFile, setSelectedFile] = useState(null)
     const textAreaRef = useRef(null)
     const [text, setText] = useState()
-    const [imageURI, setImageURI] = useState(null);
+    const [imageURI, setImageURI] = useState(null)
+    const [allowPost, setAllowPost] = useState(null)
 
 
     const postHandler = async () => {
@@ -48,6 +49,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         const reader = new FileReader()
         reader.onload = (e) => {
             setImageURI(e.target.result)
+            setAllowPost(true)
         }
         reader.readAsDataURL(file)
     }
@@ -59,6 +61,11 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         e.preventDefault()
         setText(e.target.value)
         setCaption(e.target.value)
+        //setAllowPost(true)
+        e.target.value ? setAllowPost(true) : setAllowPost(false)
+        if(imageURI) {
+            setAllowPost(true)
+        }
     }
 
     useEffect(() => {
@@ -121,11 +128,17 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                             </form>
                         </div>
                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                            <button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
-                                type="button"
-                                onClick={postHandler}>
-                                Post
-                            </button>
+                            {
+                                allowPost ?
+                                    (<button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                                        type="button"
+                                        onClick={postHandler}>
+                                        Post
+                                    </button>) : (<button className="text-white bg-blue-300 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded  outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                                        type="button">
+                                        Post
+                                    </button>)
+                            }
                         </div>
                     </div>
                 </div>

@@ -82,7 +82,7 @@ const uploadImage = async (filePath, fileName, mimeType) => {
 
 app.post('/createPost', upload.single('file'), async (req, res) => {
     try {
-        const { name, caption } = req.body
+        let { name, caption } = req.body
         let imageUrl = null
 
         if (req.file) {
@@ -95,6 +95,7 @@ app.post('/createPost', upload.single('file'), async (req, res) => {
         }
 
         const newPost = await postModel.create({ name, caption, imageUrl })
+        
 
         res.status(200).json(newPost)
     } catch (error) {

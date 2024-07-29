@@ -5,10 +5,16 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
   const [text, setText] = useState(post.caption)
   const [imageURI, setImageURI] = useState(post.imageUrl)
   const [selectedFile, setSelectedFile] = useState(null)
+  const [allowPost, setAllowPost] = useState(text || imageURI)
 
   const handleChange = (e) => {
     e.preventDefault()
     setText(e.target.value)
+    setAllowPost(true)
+    e.target.value ? setAllowPost(true) : setAllowPost(false)
+    if (imageURI) {
+      setAllowPost(true)
+    }
     //setCaption(e.target.value)
   }
 
@@ -19,18 +25,18 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
     const formData = new FormData()
     formData.append('caption', text)
 
-    if(selectedFile) {
+    if (selectedFile) {
       formData.append('file', selectedFile)
     }
 
     try {
-      const response = await axios.put(`http://localhost:3000/updatePost/${post._id}`, 
+      const response = await axios.put(`http://localhost:3000/updatePost/${post._id}`,
         formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
 
       console.log("Post updated successfully: ", response)
       onPostChange()
@@ -46,10 +52,11 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
 
     const reader = new FileReader()
     reader.onload = (e) => {
-        setImageURI(e.target.result)
+      setImageURI(e.target.result)
+      setAllowPost(true)
     }
     reader.readAsDataURL(file)
-}
+  }
 
 
   return (
@@ -105,11 +112,17 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
               </form>
             </div>
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-              <button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
-                type="button"
-                onClick={postHandler}>
-                Post
-              </button>
+              {
+                allowPost ?
+                  (<button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                    type="button"
+                    onClick={postHandler}>
+                    Post
+                  </button>) : (<button className="text-white bg-blue-300 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded  outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                    type="button">
+                    Post
+                  </button>)
+              }
             </div>
           </div>
         </div>
