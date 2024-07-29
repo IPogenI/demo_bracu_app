@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import axios from 'axios';
 
 const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
-  const [text, setText] = useState()
+  const [text, setText] = useState(post.caption)
   const [imageURI, setImageURI] = useState(post.imageUrl)
   const [selectedFile, setSelectedFile] = useState(null)
 
