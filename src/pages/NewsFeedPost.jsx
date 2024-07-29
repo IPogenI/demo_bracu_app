@@ -84,12 +84,15 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
     } catch (error) {
       console.error("Error: ", error)
     }
+
+    setDel(false)
   }
+
 
 
   return (
     <>
-      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad}/>) : null}
+      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad} />) : null}
       {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} />) : null}
 
       {/* Posts */}
@@ -117,17 +120,35 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
               </button>
 
               {/* PostOptionsDropDown */}
+              {del ? (
+                <>
+                  <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50"></div>
+
+                  <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
+                    <div className="relative w-[480px] mx-auto">
+                      <div className="flex flex-col items-center justify-center w-full bg-gray-50 h-36 gap-3 rounded-lg">
+                        <p>Are you sure?</p>
+                        <div className="btns flex gap-4">
+                          <button type="button" className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={deletePostHandler}>Yes</button>
+                          <button type="button" className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => { setDel(false) }}>No</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : null}
+
               {drop ? (
                 <>
                   <div id="dropDownPostOptions" className="absolute right-0 bg-gray-200 divide-y divide-gray-100 rounded-lg shadow w-32">
                     <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropDownPostOptions">
                       <li>
-                        <button type="button" onClick={() => { setEdit(true) }} className='block py-2 hover:bg-gray-100 w-[100%]'>
+                        <button type="button" onClick={() => { setEdit(true) }} className='block py-2 hover:bg-green-500 w-[100%]'>
                           Edit
                         </button>
                       </li>
                       <li>
-                        <button type="button" onClick={deletePostHandler} className='block py-2 hover:bg-red-500 w-[100%]'>
+                        <button type="button" onClick={() => { setDel(true) }} className='block py-2 hover:bg-red-500 w-[100%]'>
                           Delete
                         </button>
                       </li>

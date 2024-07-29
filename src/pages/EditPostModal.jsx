@@ -85,7 +85,7 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
                 {imageURI ? (
                   <div className='justify-center mt-4'>
                     <p align='center'>Click on Image Preview to change Image</p>
-                    <img className='thumbnail w-full h-auto' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
+                    <img className='thumbnail w-full h-auto cursor-pointer' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
                     <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
                   </div>
                 ) : (
