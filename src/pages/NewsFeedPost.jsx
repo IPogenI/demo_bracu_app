@@ -11,6 +11,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const [edit, setEdit] = useState(false)
   const [del, setDel] = useState(false)
   const [showComments, setShowComments] = useState(false)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -82,6 +83,14 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
 
     setDel(false)
   }
+
+  const handleImageClick = () => {
+    setIsLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+  };
 
 
 
@@ -172,10 +181,30 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
           </div>
         </div>
 
+        {/* ImageLightBox Modal */}
+        {isLightboxOpen ? (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+            onClick={closeLightbox}>
+            <div className="relative">
+              <img
+                className="max-w-4xl max-h-4xl object-contain"
+                src={post.fullSizeImageUrl || post.imageUrl}
+                alt="Full size" />
+              <div className='absolute top-0 right-0 m-4'>
+                <span className="flex items-center justify-center h-8 w-8 text-lg block bg-gray-300 rounded-full hover:bg-gray-400 cursor-pointer" onClick={closeLightbox}>
+                  &#10006;
+                </span>
+              </div>
+
+            </div>
+          </div>
+        ) : null}
+
         {/* Image Viewing Section */}
         <div>
-          <div>
-            <img className="w-[100%]" src={post.imageUrl} alt="" />
+          <div className='bg-black'>
+            <img className="w-[100%] cursor-pointer hover:opacity-80" src={post.imageUrl} alt="" onClick={handleImageClick} />
           </div>
         </div>
 
