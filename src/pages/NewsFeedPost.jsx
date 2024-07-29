@@ -5,7 +5,7 @@ import EditPostModal from './EditPostModal'
 import CommentsModal from './CommentsModal'
 import axios from 'axios'
 
-const NewsFeedPost = ({ post, onDeletion }) => {
+const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const dropDownRef = useRef(null)
   const commentsRef = useRef(null)
   const [drop, setDrop] = useState(false)
@@ -73,8 +73,9 @@ const NewsFeedPost = ({ post, onDeletion }) => {
   }
   const deletePostHandler = async () => {
     try {
+      onLoad(true)
       const response = await axios.delete(`http://localhost:3000/deletePost/${post._id}`)
-      onDeletion()
+      onPostChange()
       if (response.status == 200) {
         console.log("Post deleted successfully")
       } else {
@@ -88,7 +89,7 @@ const NewsFeedPost = ({ post, onDeletion }) => {
 
   return (
     <>
-      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} />) : null}
+      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad}/>) : null}
       {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} />) : null}
 
       {/* Posts */}

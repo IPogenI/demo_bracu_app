@@ -120,14 +120,16 @@ const NewsFeedPosts = () => {
 
                         {/* Iterating over data to create posts */}
                         {loading ? (
-                            <div align="center">
-                                <p>Please Wait ....</p>
-                                <Spinner loading={loading} />
+                            <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+                                <div className="text-center">
+                                    <p className="mb-4 text-5xl">Please Wait ....</p>
+                                    <Spinner loading={loading} className="w-160 h-160" />
+                                </div>
                             </div>
                         ) : null}
                         {
                             posts.map((post, index) => (
-                                <NewsFeedPost key={index} post={post} onDeletion={fetchPosts}/>
+                                <NewsFeedPost key={index} post={post} onPostChange={fetchPosts} onLoad={setLoading} />
                             ))
                         }
                     </section>

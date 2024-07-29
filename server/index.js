@@ -149,7 +149,7 @@ app.delete("/deletePost/:id", async(req, res) => {
             }
         }
 
-        await postModel.findByIdAndDelete(id)
+        //await postModel.findByIdAndDelete(id)
 
         res.status(200).json({message: "Post deletion complete"})
     } catch(error){
@@ -159,7 +159,49 @@ app.delete("/deletePost/:id", async(req, res) => {
     }
 })
 
-app.get('/getPost', (req, res) => {
+app.put("/updatePost/:id", upload.single("file"), async(req, res) => {
+
+    try {
+        const {caption} = req.body
+        const {id} = req.params
+        const updatedData = {caption}
+        let imageUrl = null;
+        if(req.file) {
+            const filePath = req.file.path
+            const fileName = req.file.originalname
+            const mimeType = req.file.mimetype
+
+            const fileData = await uploadImage(filePath, fileName, mimeType)
+            imageUrl = `https://lh3.google.com/u/0/d/${fileData.id}`
+        }
+
+        if(imageUrl) {
+            updatedData.imageUrl = imageUrl
+        }
+
+        const updatedPost = await postModel.findByIdAndUpdate(
+            id,
+            updatedData
+        )
+
+        if(updatedPost.imageUrl) {
+            const fileId = extractFileId(updatedPost.imageUrl)
+
+            if(fileId) {
+
+                await deleteImageFromDrive(fileId)
+            }
+        }
+
+        res.status(200).json(updatedPost)
+
+        
+    } catch (error) {
+        res.status(500).json({error: "Failed to update post"})
+    }
+})
+
+app.get('/getPost', async (req, res) => {
     postModel.find({}).sort({ createdAt: -1 })
         .then((posts) => res.json(posts))
         .catch((err) => res.json(err))
