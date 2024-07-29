@@ -3,7 +3,6 @@ import axios from 'axios'
 import NewsFeedPost from './NewsFeedPost'
 //import posts from '../posts.json'
 import { ClipLoader } from 'react-spinners'
-import Spinner from './Spinner'
 import PostCreation from './PostCreation'
 
 
@@ -123,7 +122,10 @@ const NewsFeedPosts = () => {
                             <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
                                 <div className="text-center">
                                     <p className="mb-4 text-base">Please Wait...</p>
-                                    <Spinner className="h-10 w-10"/>
+                                    <ClipLoader
+                                        loading={loading}
+                                        size={50}
+                                    />
                                 </div>
                             </div>
                         ) : null}

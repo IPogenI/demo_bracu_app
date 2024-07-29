@@ -63,7 +63,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         setCaption(e.target.value)
         //setAllowPost(true)
         e.target.value ? setAllowPost(true) : setAllowPost(false)
-        if(imageURI) {
+        if (imageURI) {
             setAllowPost(true)
         }
     }
@@ -91,7 +91,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                                 </div>
                             </div>
                             <button className="bg-transparent border-0 text-black float-right" onClick={() => setShowModal(false)}>
-                                <span className="flex items-center justify-center text-black opacity-7 h-8 w-8 text-xl block bg-gray-400 py-0 rounded-full">
+                                <span className="flex items-center justify-center h-8 w-8 text-lg block bg-gray-300 rounded-full hover:bg-gray-400">
                                     &#10006;
                                 </span>
                             </button>
@@ -105,9 +105,8 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
 
 
                                 {imageURI ? (
-                                    <div className='justify-center mt-4'>
-                                        <p align='center'>Click on Image Preview to change Image</p>
-                                        <img className='thumbnail w-full h-auto cursor-pointer' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
+                                    <div className='justify-center bg-black rounded-2xl'>
+                                        <img className='thumbnail w-full h-auto cursor-pointer hover:bg-black hover:opacity-80 rounded-lg' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
                                         <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
                                     </div>
                                 ) : (
@@ -130,14 +129,19 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                             {
                                 allowPost ?
-                                    (<button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
-                                        type="button"
-                                        onClick={postHandler}>
-                                        Post
-                                    </button>) : (<button className="text-white bg-blue-300 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded  outline-none focus:outline-none mr-1 mb-1 w-[100%]"
-                                        type="button">
-                                        Post
-                                    </button>)
+                                    (
+                                        <button className="text-white bg-blue-800 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                                            type="button"
+                                            onClick={postHandler}>
+                                            Post
+                                        </button>
+                                    ) : (
+                                        <button className="text-white bg-blue-300 font-bold uppercase text-sm px-6 py-3 rounded shadow-md outline-none focus:outline-none mr-1 mb-1 w-[100%]"
+                                            type="button"
+                                            onClick={postHandler} disabled>
+                                            Post
+                                        </button>
+                                    )
                             }
                         </div>
                     </div>
