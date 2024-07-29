@@ -127,7 +127,7 @@ const NewsFeedPosts = () => {
                         ) : null}
                         {
                             posts.map((post, index) => (
-                                <NewsFeedPost key={index} post={post} />
+                                <NewsFeedPost key={index} post={post} onDeletion={fetchPosts}/>
                             ))
                         }
                     </section>

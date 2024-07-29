@@ -3,8 +3,9 @@ import { FaEllipsisH, FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'reac
 import { NavLink } from 'react-router-dom'
 import EditPostModal from './EditPostModal'
 import CommentsModal from './CommentsModal'
+import axios from 'axios'
 
-const NewsFeedPost = ({ post }) => {
+const NewsFeedPost = ({ post, onDeletion }) => {
   const dropDownRef = useRef(null)
   const commentsRef = useRef(null)
   const [drop, setDrop] = useState(false)
@@ -38,20 +39,20 @@ const NewsFeedPost = ({ post }) => {
     const minutes = Math.floor(seconds / 60)
     const hours = Math.floor(minutes / 60)
     const days = Math.floor(hours / 24)
-    
+
     if (minutes < 1) {
       return "Just Now";
-    }else if (hours < 1){
-      return `${minutes} minute${minutes > 1 ? "s":""} ago`;
-    }else if (days < 1){
-      return `${hours} hour${hours > 1 ? "s":""} ago`;
-    }else if (days < 7){
-      return `${days} day${days > 1 ? "s":""} ago`;
-    }else{
+    } else if (hours < 1) {
+      return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else if (days < 1) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (days < 7) {
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    } else {
       const this_year = now.getFullYear();
       const creation_year = converted_date.getFullYear();
 
-      if(this_year === creation_year){
+      if (this_year === creation_year) {
 
         const same_year_option = {
           day: "numeric",
@@ -59,7 +60,7 @@ const NewsFeedPost = ({ post }) => {
         }
 
         return converted_date.toLocaleDateString("en-us", same_year_option)
-      }else{
+      } else {
         const different_year_option = {
           day: "numeric",
           month: "long",
@@ -70,12 +71,25 @@ const NewsFeedPost = ({ post }) => {
       }
     }
   }
+  const deletePostHandler = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/deletePost/${post._id}`)
+      onDeletion()
+      if (response.status == 200) {
+        console.log("Post deleted successfully")
+      } else {
+        console.error("Failed to delete Post")
+      }
+    } catch (error) {
+      console.error("Error: ", error)
+    }
+  }
 
 
   return (
     <>
-      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={ current_time } />) : null}
-      {showComments ? (<CommentsModal current_time={ current_time } post={ post } setShowComments={ setShowComments } />): null }
+      {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} />) : null}
+      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} />) : null}
 
       {/* Posts */}
       <div className="card bg-white border-2 border-gray-300 rounded-lg">
@@ -112,9 +126,9 @@ const NewsFeedPost = ({ post }) => {
                         </button>
                       </li>
                       <li>
-                        <a href="#" className="block py-2 hover:bg-gray-100">
+                        <button type="button" onClick={deletePostHandler} className='block py-2 hover:bg-red-500 w-[100%]'>
                           Delete
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>

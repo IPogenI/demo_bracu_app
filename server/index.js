@@ -6,6 +6,7 @@ import express, { urlencoded } from "express";
 import cors from "cors";
 import connectDB from "./db/db.js";
 import postModel from './models/postModel.js';
+import mongoose from 'mongoose';
 
 dotenv.config()
 
@@ -106,6 +107,57 @@ app.post('/createPost', upload.single('file'), async (req, res) => {
     // .then((post) => res.json(post))
     // .catch((err) => res.json(err));
 });
+
+const extractFileId = (url) => {
+    const regex = /\/d\/([^\/?]+)/
+    const match = url.match(regex)
+    return match[1]
+}
+
+const deleteImageFromDrive = async (fileId) => {
+
+    try {
+        await drive.files.delete({fileId})
+        console.log("Image deleted from Drive")
+    }catch (error) {
+        console.error("Image not deleted from drive")
+        throw error
+    }
+}
+
+app.delete("/deletePost/:id", async(req, res) => {
+    const { id } = req.params;
+
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).json({error: "Post ID not valid"})
+    }
+
+    try {
+        const post = await postModel.findByIdAndDelete(id)
+
+        if(!post) {
+            return res.status(404).json({error : "Post does not exist"})
+        }
+
+        if(post.imageUrl){
+            const fileId = extractFileId(post.imageUrl)
+
+            if(fileId) {
+
+                await deleteImageFromDrive(fileId)
+            }
+        }
+
+        await postModel.findByIdAndDelete(id)
+
+        res.status(200).json({message: "Post deletion complete"})
+    } catch(error){
+
+        console.error("Post deletion error: ", error)
+        res.status(500).json({error: 'Post deletion failure'})
+    }
+})
 
 app.get('/getPost', (req, res) => {
     postModel.find({}).sort({ createdAt: -1 })
