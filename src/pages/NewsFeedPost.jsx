@@ -110,7 +110,9 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
                 <p className="text-black font-semibold">
                   {post.name}
                 </p>
-                <p className="font-thin cursor-pointer">{current_time(post.createdAt)}</p>
+                <p className="font-thin cursor-pointer">{
+                (post.createdAt === post.updatedAt)? current_time(post.createdAt): `${current_time(post.createdAt)} (edited)`
+                }</p>
               </div>
             </div>
 

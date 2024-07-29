@@ -203,7 +203,7 @@ app.put("/updatePost/:id", upload.single("file"), async(req, res) => {
 })
 
 app.get('/getPost', async (req, res) => {
-    postModel.find({}).sort({ createdAt: -1 })
+    postModel.find({}).sort({ updatedAt: -1 })
         .then((posts) => res.json(posts))
         .catch((err) => res.json(err))
 })
