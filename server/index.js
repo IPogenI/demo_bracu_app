@@ -97,7 +97,7 @@ app.post('/createPost', upload.single('file'), async (req, res) => {
             const mimeType = req.file.mimetype
 
             const fileData = await uploadImage(filePath, fileName, mimeType)
-            imageUrl = `https://lh3.google.com/u/0/d/${fileData.id}`
+            imageUrl = `https://lh3.googleusercontent.com/d/${fileData.id}`
             //imageUrl = fileData.webViewLink
         }
 
@@ -180,7 +180,7 @@ app.put("/updatePost/:id", upload.single("file"), async(req, res) => {
             const mimeType = req.file.mimetype
 
             const fileData = await uploadImage(filePath, fileName, mimeType)
-            imageUrl = `https://lh3.google.com/u/0/d/${fileData.id}`
+            imageUrl = `https://lh3.googleusercontent.com/d/${fileData.id}`
         }
 
         if(imageUrl) {
