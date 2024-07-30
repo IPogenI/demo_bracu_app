@@ -107,7 +107,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                                 {imageURI ? (
                                     <div className='justify-center bg-black rounded-2xl'>
                                         <img className='thumbnail w-full h-auto cursor-pointer hover:bg-black hover:opacity-80 rounded-lg' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
-                                        <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
+                                        <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-center w-full">
@@ -119,7 +119,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                                                 </svg>
                                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Add Photos/Videos</span> or drag and drop</p>
                                             </div>
-                                            <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} />
+                                            <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
                                         </label>
                                     </div>
                                 )}

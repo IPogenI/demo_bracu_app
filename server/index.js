@@ -50,11 +50,11 @@ const uploadImage = async (filePath, fileName, mimeType) => {
         const res = await drive.files.create({
             requestBody: {
                 name: fileName,
-                mimeType: mimeType || 'application/octet-stream'
+                mimeType: mimeType
             },
 
             media: {
-                mimeType: mimeType || 'application/octet-stream',
+                mimeType: mimeType,
                 body: fs.createReadStream(filePath)
             }
         })
@@ -70,8 +70,14 @@ const uploadImage = async (filePath, fileName, mimeType) => {
             },
         })
 
+        // const res2 = await drive.files.get({
+        //     fileId: fileId,
+        //     fields: 'webViewLink, webContentLink'
+        // })
+
         fs.unlinkSync(filePath)
-        return res.data
+         return res.data
+        // return res2.data
 
     } catch (error) {
         console.log(error)
@@ -88,10 +94,11 @@ app.post('/createPost', upload.single('file'), async (req, res) => {
         if (req.file) {
             const filePath = req.file.path
             const fileName = req.file.originalname
-            const mimeType = req.file.mimeType
+            const mimeType = req.file.mimetype
 
             const fileData = await uploadImage(filePath, fileName, mimeType)
             imageUrl = `https://lh3.google.com/u/0/d/${fileData.id}`
+            //imageUrl = fileData.webViewLink
         }
 
         const newPost = await postModel.create({ name, caption, imageUrl })
