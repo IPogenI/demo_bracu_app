@@ -30,7 +30,7 @@ const EditPostModal = ({ setEdit, post, onPostChange, onLoad }) => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:3000/updatePost/${post._id}`,
+      const response = await axios.put(`http://localhost:3000/post/${post._id}`,
         formData,
         {
           headers: {

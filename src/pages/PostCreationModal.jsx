@@ -25,7 +25,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         }
 
         try {
-            const upRes = await axios.post('http://localhost:3000/createPost', formData,
+            const upRes = await axios.post('http://localhost:3000/post/', formData,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data'

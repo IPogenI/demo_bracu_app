@@ -70,7 +70,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const deletePostHandler = async () => {
     try {
       onLoad(true)
-      const response = await axios.delete(`http://localhost:3000/deletePost/${post._id}`)
+      const response = await axios.delete(`http://localhost:3000/post/${post._id}`)
       onPostChange()
       if (response.status == 200) {
         console.log("Post deleted successfully")
