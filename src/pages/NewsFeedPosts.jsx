@@ -17,7 +17,7 @@ const NewsFeedPosts = () => {
     // Handling Post Get
     const fetchPosts = () => {
         setLoading(true)
-        axios.get("http://localhost:3000/post/")
+        axios.get("/api/post/")
             .then((result) => newPost(result.data))
             .catch((error) => console.log(error))
             .finally(() => {
