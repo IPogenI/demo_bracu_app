@@ -90,3 +90,8 @@
       font-weight: 500;
       cursor: pointer;
   }
+  .errorMessage {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+  }

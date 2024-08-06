@@ -1,9 +1,10 @@
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect, useRef, useContext } from 'react'
 import { FaEllipsisH, FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import EditPostModal from './EditPostModal'
 import CommentsModal from './CommentsModal'
 import axios from 'axios'
+import { AuthContext } from '../contexts/AuthContext/AuthContext'
 
 const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const dropDownRef = useRef(null)
@@ -12,6 +13,9 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   const [del, setDel] = useState(false)
   const [showComments, setShowComments] = useState(false)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+
+  const { user } = useContext(AuthContext)
+  const isDropDisabled = (user.username !== post.name)
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -129,7 +133,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
             </div>
 
             <div className="options relative">
-              <button id='dropDown' data-dropdown-toggle="dropDownPostOptions" type="button" onClick={() => { setDrop(!drop) }} ref={dropDownRef}>
+              <button id='dropDown' data-dropdown-toggle="dropDownPostOptions" type="button" onClick={() => { setDrop(!drop) }} ref={dropDownRef} disabled={isDropDisabled}>
                 <FaEllipsisH />
               </button>
 

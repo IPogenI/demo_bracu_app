@@ -1,4 +1,4 @@
-import { useContext, useRef} from 'react'
+import { useContext, useRef, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import "./login.css"
@@ -9,6 +9,7 @@ const Login = () => {
   const email = useRef()
   const password = useRef()
   const navigate = useNavigate()
+  const [error, setError] = useState("")
 
   const { user, dispatch } = useContext(AuthContext)
 
@@ -23,8 +24,19 @@ const Login = () => {
       const res = await axios.post("/api/auth/login", userCredentials)
       dispatch(login_success(res.data))
       navigate("/")
-    } catch {
+    } catch (err) {
       dispatch(login_failure)
+      if(err.response) {
+        if(err.response.status === 400){
+          setError("Incorrect Password")
+        }else if(err.response.status === 404){
+          setError("User not found")
+        }else{
+          setError("Login Failed")
+        }
+      }else{
+        setError("Unknown Error")
+      }
     }
   }
 
@@ -51,6 +63,7 @@ const Login = () => {
               className="loginInput"
               ref={password}
             />
+            {error && <span className="errorMessage" align="center">{error}</span>}
             <button className="loginButton" onClick={loginHandler}>
               Log In
             </button>

@@ -1,9 +1,13 @@
-import { React, useEffect, useRef, useState } from 'react'
+import { React, useEffect, useRef, useState, useContext } from 'react'
 import axios from 'axios';
 import { render } from 'react-dom';
+import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
-    const name = "Dummy User";
+    const { user } = useContext(AuthContext)
+    const { username } = user
+    const firstname = username.split(" ")[0]
+
     const [caption, setCaption] = useState('')
     const [selectedFile, setSelectedFile] = useState(null)
     const textAreaRef = useRef(null)
@@ -17,7 +21,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         onLoad(true)
         // Handling Post Creation and Image Upload
         const formData = new FormData()
-        formData.append('name', name)
+        formData.append('name', username)
         formData.append('caption', caption)
 
         if (selectedFile) {
@@ -99,7 +103,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
 
                         <div className="relative p-6 flex-auto">
                             <form className="flex flex-col gap-2 w-full" onSubmit={(e) => e.preventDefault()}>
-                                <textarea value={text} rows="2" type="text" placeholder="What's on your mind, Joe?" className="focus:outline-none resize-none overflow-hidden" onChange={handleChange} ref={textAreaRef}>
+                                <textarea value={text} rows="2" type="text" placeholder={`What's on your mind, ${firstname}?`} className="focus:outline-none resize-none overflow-hidden" onChange={handleChange} ref={textAreaRef}>
                                 </textarea>
 
 
@@ -107,7 +111,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                                 {imageURI ? (
                                     <div className='justify-center bg-black rounded-2xl'>
                                         <img className='thumbnail w-full h-auto cursor-pointer hover:bg-black hover:opacity-80 rounded-lg' src={imageURI} alt='Preview' onClick={() => document.getElementById('dropzone-file').click()} />
-                                        <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
+                                        <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*" />
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-center w-full">
@@ -119,7 +123,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
                                                 </svg>
                                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Add Photos/Videos</span> or drag and drop</p>
                                             </div>
-                                            <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
+                                            <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*" />
                                         </label>
                                     </div>
                                 )}

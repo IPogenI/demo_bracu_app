@@ -28,13 +28,15 @@ export const loginController = async (req, res) => {
 
         const user = await userModel.findOne({email})
         if( !user ){
-            res.status(404).json("user not found")
+            console.log("user not found")
+            return res.status(404).json("user not found")
         }
 
         const isValid = await argon2.verify(user.hashedPassword, password)
 
         if(!isValid) {
-            res.status(400).json("wrong password")
+            console.log("wrong password")
+            return res.status(400).json("wrong password")
         }
 
         res.status(200).json(user)
