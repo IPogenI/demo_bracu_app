@@ -1,8 +1,11 @@
 import { React, useState, useEffect, useRef } from 'react'
 import { FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
+import CreateComment from '../components/CreateComment';
+import axios from 'axios';
 
 const CommentsModal = ({ post, current_time, setShowComments }) => {
     const modalRef = useRef(null);
+    const [postComments, setPostComments] = useState([])
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -17,6 +20,24 @@ const CommentsModal = ({ post, current_time, setShowComments }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [setShowComments]);
+
+    const fetchComments = async () => {
+        try {
+            const res = await axios.get("/api/comment", {
+                params: {
+                    postId: post._id
+                }
+            })
+            setPostComments(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+        
+    }
+    useEffect(() => {
+        fetchComments()
+    }, [])
 
 
     return (
@@ -98,23 +119,27 @@ const CommentsModal = ({ post, current_time, setShowComments }) => {
                     </div>
                 </div>
 
+                {/*Create Comment*/}
+                <CreateComment post={post} onCommentChange={fetchComments}/>
+
+
                 {/* Show Some Comments */}
                 <div className="comments">
                     <p className="text-gray-400 text-sm pt-2">
                         Sort Them by Something
                     </p>
-                    {post.comments.map((comment, index) => {
+                    {postComments.map((comment, index) => {
                         return (
                             <div className="flex commenter py-4 px-2 gap-2" key={index}>
                                 <div className="h-10 w-10 wrapper rounded-full border-2 border-black overflow-hidden">
-                                    <img className="w-full h-full object-contain" src="https://randomuser.me/api/portraits/men/1.jpg" alt="" />
+                                    <img className="w-full h-full object-contain" src={comment.authorImage || "https://randomuser.me/api/portraits/men/1.jpg"} alt="" />
                                 </div>
                                 <div className='flex flex-col text-sm justify-start items-start'>
                                     <p className="text-black font-normal text-sm">
-                                        {comment.name}
+                                        {comment.author}
                                     </p>
                                     <p className="text-black font-normal text-sm">
-                                        {comment.comment}
+                                        {comment.content}
                                     </p>
                                 </div>
 

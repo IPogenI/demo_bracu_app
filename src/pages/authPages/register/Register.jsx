@@ -31,7 +31,7 @@ const Register = () => {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">Bracu Connect</h3>
+          <h3 className="loginLogo">BracuConnect</h3>
         </div>
         <div className="loginRight">
           <form className="loginBox" >
@@ -58,6 +58,7 @@ const Register = () => {
             <button className="loginButton" type="submit" onClick={registerHandler}>
               Sign Up
             </button>
+            <button className="loginRegisterButton" onClick={() => {navigate("/login")}}>Log into Account</button>
           </form>
         </div>
       </div>
