@@ -17,7 +17,7 @@ export const createComments = async (req, res) => {
     const { postId, content, author, authorImage } = req.body
 
     try {
-        const post = postModel.findById(postId)
+        const post = await postModel.findById(postId)
 
         if (!post) {
             return res.status(404).json("post not found")
@@ -29,6 +29,9 @@ export const createComments = async (req, res) => {
             authorImage,
             content
         })
+
+        const {commentCount} = post
+        await postModel.findByIdAndUpdate(postId, {commentCount: commentCount + 1})
 
         res.status(201).json(comment)
     } catch (err) {

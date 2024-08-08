@@ -3,7 +3,7 @@ import { FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
 import CreateComment from '../components/CreateComment';
 import axios from 'axios';
 
-const CommentsModal = ({ post, current_time, setShowComments }) => {
+const CommentsModal = ({ post, current_time, setShowComments, onPostChange }) => {
     const modalRef = useRef(null);
     const [postComments, setPostComments] = useState([])
 
@@ -29,11 +29,12 @@ const CommentsModal = ({ post, current_time, setShowComments }) => {
                 }
             })
             setPostComments(res.data)
+            onPostChange()
             console.log(res.data)
         } catch (err) {
             console.log(err)
         }
-        
+
     }
     useEffect(() => {
         fetchComments()
@@ -120,7 +121,7 @@ const CommentsModal = ({ post, current_time, setShowComments }) => {
                 </div>
 
                 {/*Create Comment*/}
-                <CreateComment post={post} onCommentChange={fetchComments}/>
+                <CreateComment post={post} onCommentChange={fetchComments} />
 
 
                 {/* Show Some Comments */}

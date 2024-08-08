@@ -4,9 +4,22 @@ import { uploadImage, deleteImageFromDrive } from "../imageServer/imageServices.
 import mongoose from "mongoose"
 
 export const getPosts = async (req, res) => {
-    postModel.find({}).sort({ updatedAt: -1 })
+    postModel.find({}).sort({ createdAt: -1 })
         .then((posts) => res.json(posts))
         .catch((err) => res.json(err))
+}
+
+export const getSinglePost = async (req, res) => {
+    try {
+        const { id } = req.params
+        const post = await postModel.findById(id)
+        if(!post) {
+            res.status(404).json("post not found")
+        }
+        res.status(200).json(post)
+    } catch (err) {
+        res.status(500).json(err)
+    }
 }
 
 export const createPosts = async (req, res) => {

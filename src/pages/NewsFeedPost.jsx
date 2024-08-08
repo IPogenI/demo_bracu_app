@@ -101,7 +101,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   return (
     <>
       {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad} />) : null}
-      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} />) : null}
+      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} onPostChange={onPostChange}/>) : null}
 
       {/* Posts */}
       <div className="card bg-white shadow-md rounded-lg">

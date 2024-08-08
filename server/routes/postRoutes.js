@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPosts, createPosts, updatePosts, deletePosts } from '../controllers/postController.js'
+import { getPosts, createPosts, updatePosts, deletePosts, getSinglePost } from '../controllers/postController.js'
 import { google } from 'googleapis'
 import multer from 'multer'
 import fs from 'fs'
@@ -9,6 +9,7 @@ const router = express.Router()
 
 
 router.get("/", getPosts)
+router.get("/:id", getSinglePost)
 router.post("/", upload.single('file'), createPosts)
 router.put("/:id", upload.single('file'), updatePosts)
 router.delete("/:id", deletePosts)

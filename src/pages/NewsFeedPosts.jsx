@@ -16,7 +16,7 @@ const NewsFeedPosts = () => {
 
     // Handling Post Get
     const fetchPosts = () => {
-        setLoading(true)
+        //setLoading(true)
         axios.get("/api/post/")
             .then((result) => newPost(result.data))
             .catch((error) => console.log(error))
