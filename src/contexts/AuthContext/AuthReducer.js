@@ -10,6 +10,11 @@ const AuthReducer = (state, action) => {
             user: null,
             error: true
         }
+    }else if(action.type === "LOGOUT") {
+        return {
+            user: null,
+            error: false
+        }
     }else{
         return state
     }

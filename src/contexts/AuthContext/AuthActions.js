@@ -12,3 +12,10 @@ export const login_failure = () => {
     }
     return action
 }
+
+export const logout = () => {
+    const action = {
+        type: "LOGOUT"
+    }
+    return action
+}

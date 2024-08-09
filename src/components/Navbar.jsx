@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from '../assets/images/bracLogo.png'
 import { NavLink } from 'react-router-dom'
-import { FaBell, FaUsers } from 'react-icons/fa'
+import { FaBell, FaUsers, FaPowerOff } from 'react-icons/fa'
+import { AuthContext } from '../contexts/AuthContext/AuthContext'
+import { logout } from '../contexts/AuthContext/AuthActions'
 
 const Navbar = () => {
     const linkClass = ({ isActive }) => isActive ? 'bg-gray-50 text-blue-800 hover:bg-gray-500 hover:text-white rounded-full p-3' : 'hover:bg-stone-500 hover:text-black rounded-full text-lg px-3'
+    
+    const {dispatch} = useContext(AuthContext)
 
+    const logoutHandler = (e) => {
+        e.preventDefault()
+
+        localStorage.removeItem("user")
+        dispatch(logout())
+
+    }
     return (
         <>
             <div className='fixed w-screen bg-blue-800 z-50'>
@@ -31,6 +42,9 @@ const Navbar = () => {
                                         </NavLink>
                                         <NavLink to="/" className={linkClass}>
                                             <FaBell className='' />
+                                        </NavLink>
+                                        <NavLink to="/" className={linkClass} onClick={logoutHandler}>
+                                            <FaPowerOff className='' />
                                         </NavLink>
 
                                     </div>
