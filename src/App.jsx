@@ -5,6 +5,7 @@ import NewsFeedPosts from './pages/NewsFeedPosts'
 import { AuthContext } from './contexts/AuthContext/AuthContext.jsx'
 import Login from './pages/authPages/login/Login.jsx'
 import Register from './pages/authPages/register/Register.jsx'
+import Chat from './pages/Chat.jsx'
 const App = () => {
 
   const { user } = useContext(AuthContext)
@@ -20,6 +21,7 @@ const App = () => {
           {/* <Route path="/jobs/:id" element={<JobPage deleteJob={ deleteJob } />} loader={jobLoader} /> */}
           {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Route>
+        <Route path="/chat" element={<Chat />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} ></Route>
       </>
