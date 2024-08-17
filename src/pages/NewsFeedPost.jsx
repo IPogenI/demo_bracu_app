@@ -140,7 +140,8 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
               {/* PostOptionsDropDown */}
               {del ? (
                 <>
-                  <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50"></div>
+                  <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50">
+                  </div>
 
                   <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
                     <div className="relative w-[480px] mx-auto">
