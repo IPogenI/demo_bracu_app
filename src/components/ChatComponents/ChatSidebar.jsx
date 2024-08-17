@@ -4,7 +4,7 @@ import Conversation from './Conversation'
 import axios from 'axios'
 import { AuthContext } from '../../contexts/AuthContext/AuthContext'
 
-const ChatSidebar = ({setCurrentConv}) => {
+const ChatSidebar = ({ setCurrentConv }) => {
 
     const [conv, setConv] = useState([])
     const { user } = useContext(AuthContext)
@@ -15,6 +15,9 @@ const ChatSidebar = ({setCurrentConv}) => {
             const res = await axios.get(`/api/conv/${user._id}`)
             console.log(res.data)
             setConv(res.data)
+            if (res.data[0] && res.data[0]._id) {
+                setCurrentConv(res.data[0])
+            }
         } catch (err) {
             console.log(err.message)
         }
@@ -36,7 +39,7 @@ const ChatSidebar = ({setCurrentConv}) => {
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
                 {
                     conv.map((convo, index) => {
-                        return <Conversation key={index} conv={convo} onClick={setCurrentConv}/>
+                        return <Conversation key={index} conv={convo} onClick={setCurrentConv} />
                     })
                 }
 
