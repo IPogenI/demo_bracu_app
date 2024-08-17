@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import logo from '../assets/images/bracLogo.png'
 import { NavLink } from 'react-router-dom'
-import { FaBell, FaUsers, FaPowerOff } from 'react-icons/fa'
+import { FaBell, FaUsers, FaPowerOff} from 'react-icons/fa'
 import { AuthContext } from '../contexts/AuthContext/AuthContext'
 import { logout } from '../contexts/AuthContext/AuthActions'
+import { MdChat } from 'react-icons/md'
 
 const Navbar = () => {
-    const linkClass = ({ isActive }) => isActive ? 'bg-gray-50 text-blue-800 hover:bg-gray-500 hover:text-white rounded-full p-3' : 'hover:bg-stone-500 hover:text-black rounded-full text-lg px-3'
+    // const linkClass = ({ isActive }) => isActive ? 'bg-gray-50 text-blue-800 hover:bg-gray-500 hover:text-white rounded-full p-3' : 'hover:bg-stone-500 hover:text-black rounded-full text-lg px-3'
+    const linkClass = 'bg-gray-50 text-blue-800 hover:bg-gray-500 hover:text-white rounded-full p-3'
     
     const {dispatch} = useContext(AuthContext)
 
@@ -42,6 +44,9 @@ const Navbar = () => {
                                         </NavLink>
                                         <NavLink to="/" className={linkClass}>
                                             <FaBell className='' />
+                                        </NavLink>
+                                        <NavLink to="/chat"className={linkClass} >
+                                            <MdChat className='' />
                                         </NavLink>
                                         <NavLink to="/" className={linkClass} onClick={logoutHandler}>
                                             <FaPowerOff className='' />
