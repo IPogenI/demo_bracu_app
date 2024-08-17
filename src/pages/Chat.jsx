@@ -31,7 +31,7 @@ const Chat = () => {
             <div className="h-screen overflow-hidden flex items-center justify-center" style={{ background: "#edf2f7" }}>
                 <div className="flex h-screen w-screen overflow-hidden">
                     {/* <!-- Sidebar --> */}
-                    <ChatSidebar setCurrentConv={setCurrentConv}/>
+                    <ChatSidebar currentConv={currentConv} setCurrentConv={setCurrentConv}/>
 
                     {/* <!-- Main Chat Area --> */}
                     <div className="flex-1">

@@ -33,7 +33,7 @@ const ChatSidebar = ({ setCurrentConv }) => {
     return (
         <div className="w-1/4 bg-white border-r border-gray-300">
             {/* <!-- Sidebar Header --> */}
-            <SidebarHeader />
+            <SidebarHeader setCurrentConv={setCurrentConv} getConv={getConv}/>
 
             {/* <!-- Contact List --> */}
             <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">

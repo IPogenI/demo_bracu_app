@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { BsThreeDots } from "react-icons/bs"
 import List from "../List"
 
-const SidebarHeader = () => {
+const SidebarHeader = ({getConv, setCurrentConv}) => {
     const [drop, setDrop] = useState(false)
     const [show, setShow] = useState(false)
     const arr = [{ name: "Prottoy Roy" }, { name: "Shehran Rahman" }]
@@ -146,7 +146,7 @@ const SidebarHeader = () => {
                         onClick={() => { setList(true) }}
                     />
                 </div>
-                <List list={list} setList={setList} input={inputText} />
+                <List list={list} setList={setList} input={inputText} setCurrentConv={setCurrentConv} getConv={getConv}/>
             </div>
         </>
 
