@@ -1,27 +1,39 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { BsThreeDots } from "react-icons/bs"
 import List from "../List"
+import axios from 'axios'
+import { AuthContext } from '../../contexts/AuthContext/AuthContext'
 
-const SidebarHeader = ({getConv, setCurrentConv}) => {
+const SidebarHeader = ({ getConv, setCurrentConv }) => {
+    const { user } = useContext(AuthContext)
     const [drop, setDrop] = useState(false)
     const [show, setShow] = useState(false)
-    const arr = [{ name: "Prottoy Roy" }, { name: "Shehran Rahman" }]
+    // const arr = [{ name: "Prottoy Roy" }, { name: "Shehran Rahman" }]
+    const [allUsers, setAllUsers] = useState([])
     const [list, setList] = useState(false)
     const listRef = useRef(null)
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const res = await axios.get(`/api/user`)
+            setAllUsers(res.data)
+        }
+        fetchUsers()
+    }, [])
 
     // Handling Outside Clicks
     useEffect(() => {
         const handleClickOutside = (e) => {
-          if (listRef.current && !listRef.current.contains(e.target)) {
-            setList(false);
-          }
+            if (listRef.current && !listRef.current.contains(e.target)) {
+                setList(false);
+            }
         }
         document.body.addEventListener('click', handleClickOutside);
-    
+
         return () => {
-          document.body.removeEventListener('click', handleClickOutside);
+            document.body.removeEventListener('click', handleClickOutside);
         }
-      }, [])
+    }, [])
 
 
     //Handling User input from search bar
@@ -34,6 +46,25 @@ const SidebarHeader = ({getConv, setCurrentConv}) => {
     const handleAdd = () => {
         setDrop(false)
         setShow(true)
+
+    }
+
+    const convCreateHandler = async () => {
+        try {
+            const res = await axios.post("/api/conv", {
+                isGroup: true,
+                users: [...checkedNames, user._id],
+                groupAdmin: user._id
+            })
+
+            console.log(res.data)
+
+            setShow(false)
+            setCheckedNames([])
+            getConv()
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const handleCheck = () => {
@@ -45,13 +76,13 @@ const SidebarHeader = ({getConv, setCurrentConv}) => {
     console.log(checkedNames)
 
     // Handle checkbox change
-    const handleCheckboxChange = (name, isChecked) => {
+    const handleCheckboxChange = (newUserId, isChecked) => {
         if (isChecked) {
             // Add the name to the checkedNames array
-            setCheckedNames(prev => [...prev, name]);
+            setCheckedNames(prev => [...prev, newUserId]);
         } else {
             // Remove the name from the checkedNames array
-            setCheckedNames(prev => prev.filter(n => n !== name));
+            setCheckedNames(prev => prev.filter(n => n !== newUserId));
         }
     };
 
@@ -106,23 +137,23 @@ const SidebarHeader = ({getConv, setCurrentConv}) => {
                                 <div className="relative w-[480px] mx-auto">
                                     <div className="flex flex-col items-center justify-center h-[480px] bg-gray-50 h-36 rounded-lg ">
                                         <div className="flex flex-col gap-3 text-black text-left mt-16 overflow-y-auto w-[100%] h-[480px] justify-start items-center">
-                                            {arr.map((user, index) => (
+                                            {allUsers.map((user, index) => (
                                                 <div key={index} className="flex gap-3 user ">
                                                     <input
                                                         type="checkbox"
-                                                        onChange={(e) => handleCheckboxChange(user.name, e.target.checked)}
+                                                        onChange={(e) => handleCheckboxChange(user._id, e.target.checked)}
                                                     />
                                                     <label className='flex gap-5'>
-                                                        {user.name}
+                                                        {user.username}
                                                     </label>
                                                 </div>
                                             ))}
                                         </div>
-                                        
+
                                         <div className="flex h-[30%]">
-                                        <button className='bg-blue-800 text-black p-2 rounded-md mt-2 justify-end self-end mb-5'>Create Conversation</button>
+                                            <button className='bg-blue-800 text-black p-2 rounded-md mt-2 justify-end self-end mb-5' onClick={convCreateHandler}>Create Conversation</button>
                                         </div>
-                                        
+
                                     </div>
                                     <span className="absolute top-4 right-4 flex items-center justify-center h-8 w-8 text-lg block bg-gray-300 rounded-full hover:bg-gray-400 cursor-pointer" onClick={() => { handleCheck() }}>
                                         &#10006;
@@ -146,7 +177,7 @@ const SidebarHeader = ({getConv, setCurrentConv}) => {
                         onClick={() => { setList(true) }}
                     />
                 </div>
-                <List list={list} setList={setList} input={inputText} setCurrentConv={setCurrentConv} getConv={getConv}/>
+                <List list={list} setList={setList} input={inputText} setCurrentConv={setCurrentConv} getConv={getConv} />
             </div>
         </>
 
