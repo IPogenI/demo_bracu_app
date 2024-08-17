@@ -9,7 +9,7 @@ const ChatSidebar = ({setCurrentConv}) => {
     const [conv, setConv] = useState([])
     const { user } = useContext(AuthContext)
 
-    console.log(`/api/conv/${user._id}`)
+    //console.log(`/api/conv/${user._id}`)
     const getConv = async () => {
         try {
             const res = await axios.get(`/api/conv/${user._id}`)
@@ -25,7 +25,7 @@ const ChatSidebar = ({setCurrentConv}) => {
         getConv()
     }, [])
 
-    console.log(conv)
+    //console.log(conv)
 
     return (
         <div className="w-1/4 bg-white border-r border-gray-300">
