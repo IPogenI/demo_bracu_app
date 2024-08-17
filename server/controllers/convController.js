@@ -19,6 +19,10 @@ export const createConversation = async (req, res) => {
 
     try {
 
+        if(!req.params.conversationId) {
+            return res.status(400).json({message: "message not linked to any conversation"})
+        }
+
         const conv = await conversationModel.create(req.body);
         res.status(201).json(conv)
         console.log(conv)
