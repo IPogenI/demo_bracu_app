@@ -1,19 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ChatSidebar from '../components/ChatComponents/ChatSidebar'
 import ChatHeader from '../components/ChatComponents/ChatHeader'
 
 const Chat = () => {
+    const [currentConv, setCurrentConv] = useState("")
     return (
         <div>
             <div className="h-screen overflow-hidden flex items-center justify-center" style={{ background: "#edf2f7" }}>
                 <div className="flex h-screen overflow-hidden">
                     {/* <!-- Sidebar --> */}
-                    <ChatSidebar />
+                    <ChatSidebar setCurrentConv={setCurrentConv}/>
 
                     {/* <!-- Main Chat Area --> */}
                     <div className="flex-1">
                         {/* <!-- Chat Header --> */}
-                        <ChatHeader />
+                        <ChatHeader currentConv={currentConv}/>
 
                         {/* <!-- Chat Messages --> */}
                         <div className="h-screen overflow-y-auto p-4 pb-36">
