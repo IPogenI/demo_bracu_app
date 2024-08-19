@@ -6,7 +6,7 @@ export const getConversations = async (req, res) => {
     const {userId} = req.params
 
     try {
-        const conv = await conversationModel.find({users: userId}).populate('users')
+        const conv = await conversationModel.find({users: userId}).sort({updatedAt: -1}).populate('users')
 
         res.status(200).json(conv)
     } catch (err) {

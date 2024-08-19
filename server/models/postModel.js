@@ -15,12 +15,12 @@ const postSchema = new mongoose.Schema({
     default: ''
   },
   upVotes: {
-    type: Number,
-    default: 0
+    type: [String],
+    default: []
   },
   downVotes: {
-    type: Number,
-    default: 0
+    type: [String],
+    default: []
   },
   commentCount: {
     type: Number,

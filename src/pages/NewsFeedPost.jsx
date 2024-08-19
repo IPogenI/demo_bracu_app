@@ -5,16 +5,23 @@ import EditPostModal from './EditPostModal'
 import CommentsModal from './CommentsModal'
 import axios from 'axios'
 import { AuthContext } from '../contexts/AuthContext/AuthContext'
+import { BiSolidDownvote, BiSolidUpvote } from 'react-icons/bi'
 
 const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
+  const { user } = useContext(AuthContext)
   const dropDownRef = useRef(null)
   const [drop, setDrop] = useState(false)
   const [edit, setEdit] = useState(false)
   const [del, setDel] = useState(false)
   const [showComments, setShowComments] = useState(false)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const [postData, setPostData] = useState()
+  const [upvote, setUpvote] = useState(post.upVotes.includes(user.username))
+  const [downvote, setDownvote] = useState(post.downVotes.includes(user.username))
 
-  const { user } = useContext(AuthContext)
+  console.log(upvote, downvote)
+
+
   const isDropDisabled = (user.username !== post.name)
 
   useEffect(() => {
@@ -29,6 +36,20 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
       document.body.removeEventListener('click', handleClickOutside);
     }
   }, [])
+
+  useEffect(() => {
+    const getPost = async () => {
+      const res = await axios.get(`/api/post/${post._id}`)
+      setPostData(res.data)
+      console.log(res.data)
+    }
+    getPost()
+  }, [upvote, downvote])
+
+
+  
+
+
 
   function current_time(creation_time) {
     const now = new Date();
@@ -96,12 +117,43 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
     setIsLightboxOpen(false);
   };
 
+  const upvoteHandler = async (e) => {
+    
+    e.preventDefault()
+    console.log(upvote, downvote)
+    const res = await axios.post(`/api/vote`, {
+      postId: post._id,
+      username: user.username,
+      upvote: !upvote,
+      downvote: false
+    })
+    setUpvote(!upvote)
+    setDownvote(false)
+    console.log(upvote, downvote)
+    //setVote()
+  }
+
+  const downvoteHandler = async (e) => {
+    e.preventDefault()
+    const res = await axios.post(`/api/vote`, {
+      postId: post._id,
+      username: user.username,
+      upvote: false,
+      downvote: !downvote
+    })
+    setDownvote(!downvote)
+    setUpvote(false)
+    //setVote()
+  }
+
+
+
 
 
   return (
     <>
       {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad} />) : null}
-      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} onPostChange={onPostChange}/>) : null}
+      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} onPostChange={onPostChange} />) : null}
 
       {/* Posts */}
       <div className="card bg-white shadow-md rounded-lg">
@@ -234,9 +286,10 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
           <div className="pt-3 pb-2">
             <ul className=" flex text-gray-500 text-base justify-around">
               <li className='flex gap-1 justify-items-center items-center'>
-                <FaArrowUp className='cursor-pointer' />
-                <p className='px-2'>{post.upVotes}</p>
-                <FaArrowDown className='cursor-pointer' />
+                <BiSolidUpvote size="20" color={upvote ? "green" : "grey"} className='cursor-pointer' onClick={upvoteHandler} />
+                <p className='px-2'>{postData?.upVotes?.length}</p>
+                <BiSolidDownvote size="20" color={downvote ? "red" : "grey"} className='cursor-pointer' onClick={downvoteHandler} />
+                <p className='px-2'>{postData?.downVotes?.length}</p>
               </li>
               <li className='flex gap-1 justify-items-center items-center cursor-pointer'>
                 <FaRegComment />
