@@ -1,9 +1,12 @@
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect, useRef, useContext } from 'react'
 import { FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
 import CreateComment from '../components/CreateComment';
 import axios from 'axios';
+import { BiSolidDownvote, BiSolidUpvote } from 'react-icons/bi';
+import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
-const CommentsModal = ({ post, current_time, setShowComments, onPostChange }) => {
+const CommentsModal = ({ post, current_time, setShowComments, getPost, postData }) => {
+    const {user} = useContext(AuthContext)
     const modalRef = useRef(null);
     const [postComments, setPostComments] = useState([])
 
@@ -29,7 +32,7 @@ const CommentsModal = ({ post, current_time, setShowComments, onPostChange }) =>
                 }
             })
             setPostComments(res.data)
-            onPostChange()
+            getPost()
             console.log(res.data)
         } catch (err) {
             console.log(err)
@@ -86,13 +89,13 @@ const CommentsModal = ({ post, current_time, setShowComments, onPostChange }) =>
                     <div className="flex flex-row items-center gap-2 reactionCount">
                         <FaArrowUp />
                         <p className="text-gray-400 text-sm">
-                            You, John Doe and 30 others
+                            {`${postData?.upVotes.length + postData?.downVotes.length} votes`}
                         </p>
                     </div>
 
                     <div className="comments">
                         <p className="text-gray-400 text-sm">
-                            {`${post.commentCount} Comments`}
+                            {`${postData?.commentCount} Comments`}
                         </p>
                     </div>
                 </div>
@@ -102,9 +105,10 @@ const CommentsModal = ({ post, current_time, setShowComments, onPostChange }) =>
                     <div className="pt-3 pb-2">
                         <ul className=" flex text-gray-500 text-base justify-around">
                             <li className='flex gap-1 justify-items-center items-center'>
-                                <FaArrowUp className='cursor-pointer' />
-                                <p className='px-2'>{post.upVotes}</p>
-                                <FaArrowDown className='cursor-pointer' />
+                                <BiSolidUpvote size="20" color={postData.upVotes.includes(user.username) ? "blue" : "grey"} className='cursor-pointer'/>
+                                <p className='px-2'>{postData?.upVotes?.length}</p>
+                                <BiSolidDownvote size="20" color={postData.downVotes.includes(user.username) ? "red" : "grey"} className='cursor-pointer'/>
+                                <p className='px-2'>{postData?.downVotes?.length}</p>
                             </li>
                             <li className='flex gap-1 justify-items-center items-center cursor-pointer'>
                                 <FaRegComment />

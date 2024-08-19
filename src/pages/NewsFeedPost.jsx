@@ -37,12 +37,14 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
     }
   }, [])
 
+  const getPost = async () => {
+    const res = await axios.get(`/api/post/${post._id}`)
+    setPostData(res.data)
+    console.log(res.data)
+  }
+
   useEffect(() => {
-    const getPost = async () => {
-      const res = await axios.get(`/api/post/${post._id}`)
-      setPostData(res.data)
-      console.log(res.data)
-    }
+    
     getPost()
   }, [upvote, downvote])
 
@@ -153,7 +155,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
   return (
     <>
       {edit ? (<EditPostModal post={post} setEdit={setEdit} current_time={current_time} onPostChange={onPostChange} onLoad={onLoad} />) : null}
-      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} onPostChange={onPostChange} />) : null}
+      {showComments ? (<CommentsModal current_time={current_time} post={post} setShowComments={setShowComments} getPost={getPost} postData={postData}/>) : null}
 
       {/* Posts */}
       <div className="card bg-white shadow-md rounded-lg">
@@ -270,13 +272,13 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
           <div className="flex flex-row items-center gap-2 reactionCount">
             <FaArrowUp />
             <p className="text-gray-400 text-sm">
-              You, John Doe and 30 others
+              {`${postData?.upVotes.length + postData?.downVotes.length} votes`}
             </p>
           </div>
 
           <div className="comments">
             <p className="text-gray-400 text-sm">
-              {`${post.commentCount} Comments`}
+              {`${postData?.commentCount} Comments`}
             </p>
           </div>
         </div>
@@ -286,7 +288,7 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
           <div className="pt-3 pb-2">
             <ul className=" flex text-gray-500 text-base justify-around">
               <li className='flex gap-1 justify-items-center items-center'>
-                <BiSolidUpvote size="20" color={upvote ? "green" : "grey"} className='cursor-pointer' onClick={upvoteHandler} />
+                <BiSolidUpvote size="20" color={upvote ? "blue" : "grey"} className='cursor-pointer' onClick={upvoteHandler} />
                 <p className='px-2'>{postData?.upVotes?.length}</p>
                 <BiSolidDownvote size="20" color={downvote ? "red" : "grey"} className='cursor-pointer' onClick={downvoteHandler} />
                 <p className='px-2'>{postData?.downVotes?.length}</p>

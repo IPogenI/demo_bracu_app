@@ -1,4 +1,5 @@
 import postModel from "../models/postModel.js"
+import commentModel from "../models/commentModel.js"
 //import {uploadImage} from "../index.js"
 import { uploadImage, deleteImageFromDrive } from "../imageServer/imageServices.js"
 import mongoose from "mongoose"
@@ -71,6 +72,8 @@ export const deletePosts = async (req, res) => {
     }
 
     try {
+
+        const delComment = await commentModel.deleteMany({postId: id})
         const post = await postModel.findByIdAndDelete(id)
 
         if(!post) {

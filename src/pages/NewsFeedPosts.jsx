@@ -132,8 +132,8 @@ const NewsFeedPosts = () => {
                             </div>
                         ) : null}
                         {
-                            posts.map((post, index) => (
-                                <NewsFeedPost key={index} post={post} onPostChange={fetchPosts} onLoad={setLoading} />
+                            posts.map((post) => (
+                                <NewsFeedPost key={post._id} post={post} onPostChange={fetchPosts} onLoad={setLoading} />
                             ))
                         }
                     </section>
