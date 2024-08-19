@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ChatSidebar from '../components/ChatComponents/ChatSidebar'
 import ChatHeader from '../components/ChatComponents/ChatHeader'
 import axios from 'axios'
 import Message from '../components/ChatComponents/Message'
 import MessageCreation from '../components/ChatComponents/MessageCreation'
+import {io} from 'socket.io-client'
 
 const Chat = () => {
     const [currentConv, setCurrentConv] = useState({})
     const [currentMessages, setCurrentMessages] = useState([])
+    const socket = useRef(null)
+
+    // useEffect(() => {
+    //     socket.current = io("http://localhost:3001")
+
+    //     return () => {
+    //         socket.current.disconnect()
+    //     }
+    // }, [])
 
     const fetchMessages = async () => {
         try {
