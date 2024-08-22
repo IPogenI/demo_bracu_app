@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../contexts/AuthContext/AuthContext'
-// import data from "./ListData.json"
+import { AuthContext } from '../../contexts/AuthContext/AuthContext'
 
 function List({ list, setList, input, setCurrentConv, getConv }) {
 

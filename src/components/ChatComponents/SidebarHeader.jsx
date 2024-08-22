@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import { BsThreeDots } from "react-icons/bs"
-import List from "../List"
+import List from "./List"
 import axios from 'axios'
 import { AuthContext } from '../../contexts/AuthContext/AuthContext'
 

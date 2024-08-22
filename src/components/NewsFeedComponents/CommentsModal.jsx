@@ -1,9 +1,9 @@
 import { React, useState, useEffect, useRef, useContext } from 'react'
 import { FaArrowUp, FaArrowDown, FaRegComment, FaShare } from 'react-icons/fa'
-import CreateComment from '../components/CreateComment';
+import CreateComment from './CreateComment';
 import axios from 'axios';
 import { BiSolidDownvote, BiSolidUpvote } from 'react-icons/bi';
-import { AuthContext } from '../contexts/AuthContext/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
 const CommentsModal = ({ post, current_time, setShowComments, getPost, postData }) => {
     const {user} = useContext(AuthContext)

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
-import { AuthContext } from '../contexts/AuthContext/AuthContext.jsx'
+import { AuthContext } from '../../contexts/AuthContext/AuthContext.jsx'
 
 const CreateComment = ({post, onCommentChange}) => {
 

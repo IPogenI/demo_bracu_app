@@ -1,17 +1,8 @@
-import { React, useEffect, useRef, useState, useContext } from 'react'
+import { React, useEffect, useState } from 'react'
 import axios from 'axios';
-import { render } from 'react-dom';
-import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
-const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
-    const { user } = useContext(AuthContext)
-    const { username } = user
-    const firstname = username.split(" ")[0]
-
-    const [caption, setCaption] = useState('')
+const ProfilePictureModal = ({ setShowModal, onLoad }) => {
     const [selectedFile, setSelectedFile] = useState(null)
-    const textAreaRef = useRef(null)
-    const [text, setText] = useState()
     const [imageURI, setImageURI] = useState(null)
     const [allowPost, setAllowPost] = useState(null)
 
@@ -72,11 +63,6 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
         }
     }
 
-    useEffect(() => {
-        textAreaRef.current.style.height = 'auto'
-        textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
-    }, [text])
-
     return (
         <>
             <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-black opacity-50"></div>
@@ -103,7 +89,7 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
 
                         <div className="relative p-6 flex-auto">
                             <form className="flex flex-col gap-2 w-full" onSubmit={(e) => e.preventDefault()}>
-                                <textarea value={text} rows="2" type="text" placeholder={`What's on your mind, ${firstname}?`} className="focus:outline-none resize-none overflow-hidden" onChange={handleChange} ref={textAreaRef}>
+                                <textarea value="Placeholder" rows="2" type="text" placeholder={`What's on your mind, Joe?`} className="focus:outline-none resize-none overflow-hidden" onChange={handleChange}>
                                 </textarea>
 
 
@@ -155,4 +141,4 @@ const PostCreationModal = ({ setShowModal, onCreation, onLoad }) => {
     )
 }
 
-export default PostCreationModal
+export default ProfilePictureModal

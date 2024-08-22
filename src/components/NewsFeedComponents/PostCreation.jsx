@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PostCreationModal from './PostCreationModal';
-import { AuthContext } from '../contexts/AuthContext/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
 
 const PostCreation = ({ onCreation, onLoad }) => {

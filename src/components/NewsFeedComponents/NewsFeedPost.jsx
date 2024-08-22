@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import EditPostModal from './EditPostModal'
 import CommentsModal from './CommentsModal'
 import axios from 'axios'
-import { AuthContext } from '../contexts/AuthContext/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext/AuthContext'
 import { BiSolidDownvote, BiSolidUpvote } from 'react-icons/bi'
 
 const NewsFeedPost = ({ post, onPostChange, onLoad }) => {

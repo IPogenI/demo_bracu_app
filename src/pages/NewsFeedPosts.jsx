@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import NewsFeedPost from './NewsFeedPost'
-//import posts from '../posts.json'
+import NewsFeedPost from '../components/NewsFeedComponents/NewsFeedPost'
 import { ClipLoader } from 'react-spinners'
-import PostCreation from './PostCreation'
+import PostCreation from '../components/NewsFeedComponents/PostCreation'
+import Sidebar from '../components/Sidebar'
 
 
 // Need to fetch data here from database and send them to NewsFeedPost.jsx
@@ -33,6 +33,7 @@ const NewsFeedPosts = () => {
 
     return (
         <>
+            <Sidebar />
             <div className="posts pt-24 flex flex-col bg-gray-100">
                 <div className="flex justify-center flex-none">
                     <section className="flex flex-col max-w-xl gap-5">
