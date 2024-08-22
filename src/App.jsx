@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/" element={user ? <MainLayout /> : <Navigate to="/login" />}>
           <Route index element={<NewsFeedPosts />} />
           <Route path ="/profilePage" element={<ProfilePage />} />
-          <Route path="/chat" element={<Chat />} />
+          
           {/* <Route path="/jobs" element={<JobsPage />} /> */}
           {/* <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} /> */}
           {/* <Route path="/edit-job/:id" element={<EditJobPage updateJobSubmit={updateJob}/>} loader={jobLoader} /> */}
@@ -25,7 +25,7 @@ const App = () => {
           {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Route>
         
-        
+        <Route path="/chat" element={<Chat />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} ></Route>
       </>

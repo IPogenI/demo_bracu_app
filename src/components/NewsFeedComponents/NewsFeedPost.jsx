@@ -148,6 +148,32 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
     //setVote()
   }
 
+  function upvoteDescription() {
+    if(!postData?.upVotes) return
+    if (postData.upVotes.length === 0) return "0 upvotes"
+  
+    const hasCurrentUser = postData.upVotes.includes(user.username)
+  
+    
+    let filteredNames = postData.upVotes.filter(name => name !== user.username)
+    filteredNames = filteredNames.map(name => name.split(" ")[0])
+  
+    
+    let currUser = hasCurrentUser ? "You" : ""
+  
+    if (filteredNames.length > 0) {
+      if (filteredNames.length === 1) {
+        currUser += currUser ? ` and ${filteredNames[0]}` : filteredNames[0]
+      } else if (filteredNames.length === 2) {
+        currUser += currUser ? `, ${filteredNames[0]} and others`: `${filteredNames[0]} and ${filteredNames[1]}`
+      } else {
+        currUser += `${filteredNames[0]}, ${filteredNames[1]} and others`
+      }
+    }
+  
+    return currUser
+  }
+
 
 
 
@@ -272,13 +298,15 @@ const NewsFeedPost = ({ post, onPostChange, onLoad }) => {
           <div className="flex flex-row items-center gap-2 reactionCount">
             <FaArrowUp />
             <p className="text-gray-400 text-sm">
-              {`${postData?.upVotes.length + postData?.downVotes.length} votes`}
+              {/* {`${postData?.upVotes.length + postData?.downVotes.length} votes`} */}
+              {upvoteDescription()}
             </p>
           </div>
 
           <div className="comments">
             <p className="text-gray-400 text-sm">
               {`${postData?.commentCount} Comments`}
+              {/* {upvoteDescription()} */}
             </p>
           </div>
         </div>
