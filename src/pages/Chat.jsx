@@ -11,13 +11,13 @@ const Chat = () => {
     const [currentMessages, setCurrentMessages] = useState([])
     const socket = useRef(null)
 
-    // useEffect(() => {
-    //     socket.current = io("http://localhost:3001")
+    useEffect(() => {
+        socket.current = io("http://localhost:3000")
 
-    //     return () => {
-    //         socket.current.disconnect()
-    //     }
-    // }, [])
+        return () => {
+            socket.current.disconnect()
+        }
+    }, [])
 
     const fetchMessages = async () => {
         try {
